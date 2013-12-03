@@ -6,4 +6,4 @@ deploy:
   api_key:
     secure: 0WlNGz6ymVXFiD3T1b9YXns7cI0IfRmoE6dpEMbRFOSd3ibbF196TrfJiQN2NzhsWjG52bwS8wrsWHa70LRBmgLZcqtc14DsSGox42smPsAZKKKhoiV/lcmZDbvC/TJ2qRIbBBK1CRciMKVWlPJ8dCpHiLM4CKO8FRRJ+oYuXb8=
   app: notjs-back
-  buildpack: "https://github.com/heroku/heroku-buildpack-nodejs"
+  buildpack: "https://github.com/heroku/heroku-buildpack-nodejs.git"
