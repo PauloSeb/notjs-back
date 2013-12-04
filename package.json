@@ -10,10 +10,10 @@
   },
   "dependencies": {
   	"ws": "0.4.x",
-    "express": "3.1.x",
-    "devDependencies": {
-    	"vows": "0.6.x"
-    }
+    "express": "3.1.x"
+  },
+  "devDependencies": {
+    "vows": "0.6.x"
   },
   "engines": {
     "node": "0.10.x",
