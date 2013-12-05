@@ -3,25 +3,25 @@ var assert = require('assert');
 var events = require('events');
 
 vows.describe('CouchDB tests').addBatch({
-  'insert': {
+  'getUser': {
     topic: function() {
       var promise = new (events.EventEmitter);
       var nano = require('nano')("http://localhost:5984");
 
       var notjs = nano.use('notjs');
-      notjs.insert({ test: "success" }, "test", function(err, body, header) {
-        if(!err) {
-          console.log(body);
-          promise.emit('success', body.id);
-        } else {
-          console.log(err);
-        }
+      notjs.view('users', 'getUserByFBID', { key : "1314556472" }, function(err, body) {
+        if (!err) {
+          body.rows.forEach(function(doc) {
+            console.log((new Date()).toUTCString() + " :: user " + doc.value._id + " found!");
+            promise.emit('success', doc.value.name);
+          });
+        } else { console.log(err);}
       });
 
       return promise;
     },
-    'hello received': function(message) {
-      assert.equal(message, 'test');
+    'User found': function(message) {
+      assert.equal(message, 'Paul Sebastien');
     }
   }
 }).export(module);
