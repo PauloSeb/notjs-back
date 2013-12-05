@@ -1,8 +1,11 @@
 language: node_js
 node_js:
 - '0.10'
+services:
+  - couchdb
 before_script:
 - npm start &
+- curl -X PUT localhost:5984/notjs
 deploy:
   provider: heroku
   api_key:

@@ -1,18 +1,20 @@
 {
   "name": "notjs-back",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "git://github.com/PauloSeb/notjs-back.git"
   },
   "scripts": {
   	"start": "node ./web.js",
-    "test": "vows --spec"
+    "test": "vows test/* --spec"
   },
   "dependencies": {
   	"ws": "0.4.x",
     "express": "3.1.x",
-    "vows": "0.7.x"
+    "vows": "0.7.x",
+    "commander": "2.1.x",
+    "nano": "4.2.x"
   },
   "devDependencies": {
     "vows": "0.7.x"
