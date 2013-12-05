@@ -9,14 +9,19 @@ vows.describe('CouchDB tests').addBatch({
       var nano = require('nano')("http://localhost:5984");
 
       var notjs = nano.use('notjs');
-      notjs.insert({ test: "success" }, "hello", function(err, body, header) {
-        if(!err) promise.emit('success', body.id);
+      notjs.insert({ test: "success" }, "test", function(err, body, header) {
+        if(!err) {
+          console.log(body);
+          promise.emit('success', body.id);
+        } else {
+          console.log(err);
+        }
       });
 
       return promise;
     },
     'hello received': function(message) {
-      assert.equal(message, 'hello');
+      assert.equal(message, 'test');
     }
   }
 }).export(module);
