@@ -9,7 +9,7 @@ var WebSocketServer = require('ws').Server
 // Define version/args
 program
 .version('0.4')
-.option('-d, --db', 'couchDB url')
+.option('-d, --db [value]', 'couchDB url')
 .parse(process.argv);
 
 if(program.db) {
