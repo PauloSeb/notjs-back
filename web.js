@@ -47,7 +47,7 @@ wss.on('connection', function(ws) {
 			notjs.view('users', 'getUserByFBID', { key : received.payload.fbid }, function(err, body) {
 				if (!err) {
 					if(body.rows.length==0) {
-						notjs.insert({ type: "user", fbid: received.payload.fbid, name: received.payload.name, sales: [], news: [] }, function(err, body) {
+						notjs.insert({ type: "user", fbid: received.payload.fbid, name: received.payload.name }, function(err, body) {
 							if (!err) {
 								console.log((new Date()).toUTCString() + " :: user " + JSON.stringify(body.id) + " created!");
 								var answer = {"type":"userId","payload":{"id":body.id}};
@@ -65,6 +65,23 @@ wss.on('connection', function(ws) {
 					}
 				} else { console.log(err);}
 			});
+			break;
+			case 'createSale':
+			notjs.insert({ type: "product", name: received.payload.name, description: received.payload.description }, function(err, body) {
+				if (!err) {
+					console.log((new Date()).toUTCString() + " :: product " + body.id + " created!");
+					notjs.insert({ type: "sale", date: (new Date()).toUTCString(), price: received.payload.price, product: body.id, seller: received.payload.seller }, function(err, body) {
+						if (!err) {
+							console.log((new Date()).toUTCString() + " :: sale " + body.id + " created!");
+							var answer = {"type":"saleId","payload":{"id":body.id}};
+							console.log(JSON.stringify(answer));
+							ws.send(JSON.stringify(answer));
+						}
+					});
+				}
+			});
+
+
 			break;
 			default:
 			console.log("Unknown message type");

@@ -9,7 +9,7 @@ vows.describe('CouchDB tests').addBatch({
       var nano = require('nano')("http://localhost:5984");
 
       var notjs = nano.use('notjs');
-      notjs.insert({"type": "user", "fbid": "1314556472", "name": "Paul Sebastien", "sales": [], "news": []}, "e96f475532e4cb7f730fc91fb600059f", function(err, body) {
+      notjs.insert({"type": "user", "fbid": "1314556472", "name": "Paul Sebastien"}, "e96f475532e4cb7f730fc91fb600059f", function(err, body) {
         if(!err) {
           console.log("user added");
           notjs.insert({"language": "javascript", "views": { "getUserByFBID": { "map": "function(doc) { if (doc.type == 'user')  emit(doc.fbid, doc) }"}}}, "_design/users", function(err, body) {
