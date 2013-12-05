@@ -46,10 +46,23 @@ wss.on('connection', function(ws) {
 			case 'getUserByFb':
 			notjs.view('users', 'getUserByFBID', { key : received.payload.fbid }, function(err, body) {
 				if (!err) {
-					body.rows.forEach(function(doc) {
-						console.log((new Date()).toUTCString() + " :: user " + doc.value._id + " found!");
-						ws.send(JSON.stringify(doc.value));
-					});
+					if(body.rows.length==0) {
+						notjs.insert({ type: "user", fbid: received.payload.fbid, name: received.payload.name, sales: [], news: [] }, function(err, body) {
+							if (!err) {
+								console.log((new Date()).toUTCString() + " :: user " + JSON.stringify(body.id) + " created!");
+								var answer = {"type":"userId","payload":{"id":body.id}};
+								console.log(JSON.stringify(answer));
+								ws.send(JSON.stringify(answer));
+							}
+						});
+					} else {
+						body.rows.forEach(function(doc) {
+							console.log((new Date()).toUTCString() + " :: user " + doc.value._id + " found!");
+							var answer = {"type":"userId","payload":{"id":doc.value._id}};
+							console.log(JSON.stringify(answer));
+							ws.send(JSON.stringify(answer));
+						});
+					}
 				} else { console.log(err);}
 			});
 			break;
