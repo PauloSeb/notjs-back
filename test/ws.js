@@ -11,7 +11,7 @@ vows.describe('WebSocket https tests').addBatch({
       var ws = new WebSocket("ws://localhost:"+port);
     
       ws.on('open', function() {
-        ws.send('helloworld');
+        ws.send('{"type":"test","payload":"helloworld"}');
 
         ws.on('message', function(message) {
           promise.emit('success', message);
