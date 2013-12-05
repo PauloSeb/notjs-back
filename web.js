@@ -17,7 +17,7 @@ if(program.db) {
 } else {
 	dbAddress = "http://localhost:5984";
 }
-
+console.log("Connecting DB:" + dbAddress);
 var nano = require('nano')(dbAddress);
 
 var notjs = nano.use('notjs');

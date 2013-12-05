@@ -1,1 +1,1 @@
-web: node web.js -d "https://notjs.iriscouch.com:5984/"
+web: node web.js -d "http://notjs.iriscouch.com:5984/"
