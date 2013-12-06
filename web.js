@@ -67,20 +67,24 @@ wss.on('connection', function(ws) {
 			});
 			break;
 			case 'createSale':
-			notjs.insert({ type: "product", name: received.payload.name, description: received.payload.description }, function(err, body) {
+			notjs.insert({ type: "sale", date: (new Date()).toUTCString(), price: received.payload.price, product: received.payload.name, description: received.payload.description, seller: received.payload.seller }, function(err, body) {
 				if (!err) {
-					console.log((new Date()).toUTCString() + " :: product " + body.id + " created!");
-					notjs.insert({ type: "sale", date: (new Date()).toUTCString(), price: received.payload.price, product: body.id, seller: received.payload.seller }, function(err, body) {
-						if (!err) {
-							console.log((new Date()).toUTCString() + " :: sale " + body.id + " created!");
-							var answer = {"type":"saleId","payload":{"id":body.id}};
-							console.log(JSON.stringify(answer));
-							ws.send(JSON.stringify(answer));
-						}
-					});
+					console.log((new Date()).toUTCString() + " :: sale " + body.id + " created!");
+					var answer = {"type":"saleId","payload":{"id":body.id}};
+					console.log(JSON.stringify(answer));
+					ws.send(JSON.stringify(answer));
 				}
 			});
-
+			break;
+			case 'getSalesOfUser':
+			notjs.view('sales', 'getSalesOfUser', {key : received.payload.seller }, function(err, body) {
+				if (!err) {
+					body.rows.forEach(function(doc) {
+						console.log((new Date()).toUTCString() + " :: sale " + doc.value._id + " found!");
+						console.log(doc);
+					});
+				} else { console.log(err);}
+			});
 
 			break;
 			default:
