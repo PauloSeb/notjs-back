@@ -79,10 +79,12 @@ wss.on('connection', function(ws) {
 			case 'getSalesOfUser':
 			notjs.view('sales', 'getSalesOfUser', {key : received.payload.seller }, function(err, body) {
 				if (!err) {
+					var answer = {"type":"sales","payload":{"sales":(new Array())}}
 					body.rows.forEach(function(doc) {
-						console.log((new Date()).toUTCString() + " :: sale " + doc.value._id + " found!");
-						console.log(doc);
+						answer.payload.sales.push(doc);
 					});
+					console.log(JSON.stringify(answer));
+					ws.send(JSON.stringify(answer));
 				} else { console.log(err);}
 			});
 
